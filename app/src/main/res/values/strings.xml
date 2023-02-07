@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MajikaUnbound</string>
+    <string name="title_twibbon">Twibbon</string>
+    <string name="title_location">Lokasi</string>
+    <string name="title_menu">Menu</string>
+    <string name="title_keranjang">Keranjang</string>
+</resources>

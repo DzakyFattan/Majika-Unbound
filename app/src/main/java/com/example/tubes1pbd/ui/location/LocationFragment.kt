@@ -1,42 +1,56 @@
 package com.example.tubes1pbd.ui.location
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.tubes1pbd.databinding.FragmentLocationBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.tubes1pbd.R
+import com.example.tubes1pbd.service.RestApi
+import com.example.tubes1pbd.service.RestApiBuilder.getRetrofit
+import kotlinx.android.synthetic.main.fragment_location.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
 
 class LocationFragment : Fragment() {
+    private var layoutManager: RecyclerView.LayoutManager? = null
+    private var adapter: RecyclerView.Adapter<LocationAdapter.Holder>? = null
 
-    private var _binding: FragmentLocationBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private val locationItem = ArrayList<Locations>()
+    private val listLocation = arrayOf("a", "b", "c", "d", "e", "f")
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(LocationViewModel::class.java)
-
-        _binding = FragmentLocationBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textLocation
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        return inflater.inflate(R.layout.fragment_location, container, false)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val locationsApi = getRetrofit().create(RestApi::class.java)
+
+        GlobalScope.launch {
+            val response = locationsApi.getLocations()
+            if (response.isSuccessful) {
+                val locations = response.body()
+                if (locations != null) {
+                    Log.d("LocationFragment", locations.toString())
+//                    for (location in locations) {
+//                        locationItem.add(location)
+//                    }
+                }
+            }
+        }
+        location_recycler_view.apply {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = LocationAdapter(locationItem)
+        }
     }
 }

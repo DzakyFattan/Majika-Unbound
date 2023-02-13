@@ -7,10 +7,9 @@
     tools:context=".ui.location.LocationFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/location_recycler_view"
+        android:id="@+id/rv_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

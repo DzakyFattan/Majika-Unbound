@@ -6,8 +6,25 @@ import androidx.lifecycle.ViewModel
 
 class TwibbonViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is Twibbon Fragment"
+
+    private val _twibbonSaveButtonText = MutableLiveData<String>().apply {
+        value = "Save to Gallery"
     }
-    val text: LiveData<String> = _text
+    private val _twibbonCaptureButtonText = MutableLiveData<String>().apply {
+        value = "Capture a Photo"
+    }
+
+    fun toggleCaptureButtonText(isCaptured: Boolean) {
+        if (isCaptured) {
+            _twibbonCaptureButtonText.value = "Capture a Photo"
+        } else {
+            _twibbonCaptureButtonText.value = "Retake Photo"
+        }
+    }
+    val twibbonCaptureButtonText: LiveData<String>
+        get() = _twibbonCaptureButtonText
+
+    val twibbonSaveButtonText: LiveData<String>
+        get() = _twibbonSaveButtonText
+
 }

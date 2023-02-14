@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    tools:context=".ui.twibbon.LiveFeedFragment">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/liveFeedPreview"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:layout_margin="12dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/captureButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <Button
+        android:id="@+id/captureButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Capture"
+        app:layout_constraintTop_toBottomOf="@+id/liveFeedPreview"
+        app:layout_constraintStart_toStartOf="@+id/liveFeedPreview"
+        app:layout_constraintEnd_toEndOf="@+id/liveFeedPreview"
+        />
+    <com.example.tubes1pbd.ui.twibbon.PreviewOverlay
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/liveFeedPreview"
+        app:layout_constraintEnd_toEndOf="@id/liveFeedPreview"
+        app:layout_constraintTop_toTopOf="@id/liveFeedPreview"
+        app:layout_constraintBottom_toBottomOf="@id/liveFeedPreview"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

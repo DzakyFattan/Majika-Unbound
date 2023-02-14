@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_twibbon"
-        android:name="com.example.tubes1pbd.ui.twibbon.TwibbonFragment"
+        android:name="com.example.tubes1pbd.ui.twibbon.TwibbonMainFragment"
         android:label="@string/title_twibbon"
-        tools:layout="@layout/fragment_twibbon" />
+        tools:layout="@layout/fragment_twibbon_main" />
 
     <fragment
         android:id="@+id/navigation_location"

@@ -22,7 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Capture"
+        android:text="@string/capture_button"
         app:layout_constraintTop_toBottomOf="@+id/liveFeedPreview"
         app:layout_constraintStart_toStartOf="@+id/liveFeedPreview"
         app:layout_constraintEnd_toEndOf="@+id/liveFeedPreview"
@@ -30,6 +30,7 @@
     <com.example.tubes1pbd.ui.twibbon.PreviewOverlay
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:id="@+id/twibbonOverlay"
         app:layout_constraintStart_toStartOf="@id/liveFeedPreview"
         app:layout_constraintEnd_toEndOf="@id/liveFeedPreview"
         app:layout_constraintTop_toTopOf="@id/liveFeedPreview"

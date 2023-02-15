@@ -5,24 +5,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     tools:context=".ui.twibbon.ResultDisplayFragment">
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ResultDisplay Fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/resultView"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:layout_margin="12dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/recaptureButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/twibbon_result" />
     <Button
-        android:id="@+id/navButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/recaptureButton"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Go to LiveFeed Fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/textView2"
+        android:layout_marginTop="20dp"
+        android:text="@string/recapture_button"
+        app:layout_constraintTop_toBottomOf="@+id/resultView"
+        app:layout_constraintStart_toStartOf="@+id/resultView"
+        app:layout_constraintEnd_toEndOf="@+id/resultView"
+        />
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/save_twibbon_button"
+        app:layout_constraintTop_toBottomOf="@+id/recaptureButton"
+        app:layout_constraintStart_toStartOf="@+id/recaptureButton"
+        app:layout_constraintEnd_toEndOf="@+id/recaptureButton"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

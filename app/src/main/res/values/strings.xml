@@ -5,4 +5,8 @@
     <string name="title_menu">Menu</string>
     <string name="title_keranjang">Keranjang</string>
     <string name="btn_maps">Maps</string>
+    <string name="capture_button">Capture</string>
+    <string name="twibbon_result">Twibbon Result</string>
+    <string name="recapture_button">Recapture</string>
+    <string name="save_twibbon_button">Save Twibbon</string>
 </resources>

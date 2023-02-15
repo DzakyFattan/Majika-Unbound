@@ -1,4 +1,4 @@
-package com.example.tubes1pbd.ui.location
+package com.example.tubes1pbd.models
 
 import com.google.gson.annotations.SerializedName
 

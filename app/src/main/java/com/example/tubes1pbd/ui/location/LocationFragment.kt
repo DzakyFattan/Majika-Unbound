@@ -1,23 +1,17 @@
 package com.example.tubes1pbd.ui.location
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tubes1pbd.databinding.FragmentLocationBinding
-import com.example.tubes1pbd.service.RestApi
-import com.example.tubes1pbd.service.RestApiBuilder.getRetrofit
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-
 
 class LocationFragment : Fragment() {
-    private val locationItem = ArrayList<Locations>()
 
     private var _binding: FragmentLocationBinding? = null
 
@@ -25,30 +19,21 @@ class LocationFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLocationBinding.inflate(inflater, container, false)
-        val locationsApi = getRetrofit().create(RestApi::class.java)
+        val locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
 
-        GlobalScope.launch {
-            val response = locationsApi.getLocations()
-            if (response.isSuccessful) {
-                val locations = response.body()
-                if (locations != null) {
-                    for (location in locations.data) {
-                        locationItem.add(location)
-//                        Log.d("location", location.toString())
-                    }
-                }
-                withContext(Main) {
-                    val recyclerView = binding.rvLocation
-                    recyclerView.adapter = LocationAdapter(locationItem)
-                    recyclerView.layoutManager = LinearLayoutManager(activity)
-                }
-            }
+        _binding = FragmentLocationBinding.inflate(inflater, container, false)
+        val locationAdapter = LocationAdapter()
+        binding.rvLocation.adapter = locationAdapter
+        binding.rvLocation.layoutManager = LinearLayoutManager(context)
+        locationViewModel.rvLocation.observe(viewLifecycleOwner) {
+//            Log.d(TAG, "onCreateView: $it")
+            locationAdapter.setLocationsList(it)
         }
+        locationViewModel.getLocations()
+
         return binding.root
     }
 

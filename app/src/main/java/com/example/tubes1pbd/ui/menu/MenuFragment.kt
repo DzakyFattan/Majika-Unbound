@@ -23,17 +23,23 @@ class MenuFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
-        binding.rvMenu.adapter = adapter
-        binding.rvMenu.layoutManager = LinearLayoutManager(context)
         menuViewModel =
             ViewModelProvider(this)[MenuViewModel::class.java]
         menuViewModel.rvMenu.observe(viewLifecycleOwner){
             adapter.menuList = it.toMutableList()
         }
-        menuViewModel.getAPIMenu()
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.rvMenu.adapter = adapter
+        binding.rvMenu.layoutManager = LinearLayoutManager(context)
+        binding.rvMenu.setHasFixedSize(true)
+        if (adapter.itemCount == 0) {
+            menuViewModel.getAPIMenu()
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.example.tubes1pbd.models.Locations
 import com.example.tubes1pbd.models.LocationsList
 import com.example.tubes1pbd.service.RestAPI
-import com.example.tubes1pbd.service.RestAPIBuilder.getRetrofit
 import com.example.tubes1pbd.service.RestAPIBuilder.getClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,6 +15,7 @@ class LocationViewModel : ViewModel() {
 
     val locationItem = ArrayList<Locations>()
     val rvLocation = MutableLiveData<ArrayList<Locations>>()
+
 
     fun getLocations() {
         val locationsApi = getClient()

@@ -4,35 +4,34 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tubes1pbd.databinding.FragmentMenuBinding
 
 class MenuFragment : Fragment() {
-
     private var _binding: FragmentMenuBinding? = null
-
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val adapter = MenuAdapter()
+    private lateinit var menuViewModel: MenuViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(MenuViewModel::class.java)
-
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textMenu
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        binding.rvMenu.adapter = adapter
+        binding.rvMenu.layoutManager = LinearLayoutManager(context)
+        menuViewModel =
+            ViewModelProvider(this)[MenuViewModel::class.java]
+        menuViewModel.rvMenu.observe(viewLifecycleOwner){
+            adapter.menuList = it.toMutableList()
         }
-        return root
+        menuViewModel.getAPIMenu()
+        return binding.root
     }
 
     override fun onDestroyView() {

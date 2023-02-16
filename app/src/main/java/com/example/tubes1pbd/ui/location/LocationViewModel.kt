@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tubes1pbd.models.Locations
 import com.example.tubes1pbd.models.LocationsList
-import com.example.tubes1pbd.service.RestApi
-import com.example.tubes1pbd.service.RestApiBuilder.getRetrofit
+import com.example.tubes1pbd.service.RestAPI
+import com.example.tubes1pbd.service.RestAPIBuilder.getRetrofit
+import com.example.tubes1pbd.service.RestAPIBuilder.getClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,7 +18,7 @@ class LocationViewModel : ViewModel() {
     val rvLocation = MutableLiveData<ArrayList<Locations>>()
 
     fun getLocations() {
-        val locationsApi = getRetrofit().create(RestApi::class.java)
+        val locationsApi = getClient()
         val response = locationsApi.getLocations()
         response.enqueue(object : Callback<LocationsList> {
             override fun onResponse(
@@ -26,7 +27,7 @@ class LocationViewModel : ViewModel() {
             ) {
                 val locations = response.body()
                 val sortedLocations = locations?.data?.sortedBy { it.name }
-//                Log.d("location", sortedLocations.toString())
+                Log.d("location", sortedLocations.toString())
                 if (sortedLocations != null) {
                     locationItem.addAll(sortedLocations)
                     rvLocation.postValue(locationItem)

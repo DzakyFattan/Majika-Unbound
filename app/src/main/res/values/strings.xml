@@ -9,4 +9,5 @@
     <string name="twibbon_result">Twibbon Result</string>
     <string name="recapture_button">Recapture</string>
     <string name="save_twibbon_button">Save Twibbon</string>
+    <string name="no_temperature_sensor">No Temperature Sensor</string>
 </resources>

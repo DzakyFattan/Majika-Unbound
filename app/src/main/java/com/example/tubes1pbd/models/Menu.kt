@@ -1,7 +1,6 @@
 package com.example.tubes1pbd.models
 
 import com.google.gson.annotations.SerializedName
-import java.util.Currency
 
 data class Menu (
     @SerializedName("name") val name: String?,

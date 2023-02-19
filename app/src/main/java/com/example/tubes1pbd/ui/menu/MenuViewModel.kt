@@ -1,24 +1,25 @@
 package com.example.tubes1pbd.ui.menu
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.tubes1pbd.data.MajikaRoomDatabase
 import com.example.tubes1pbd.models.Menu
 import com.example.tubes1pbd.models.MenuList
+import com.example.tubes1pbd.repository.MajikaRepository
 import com.example.tubes1pbd.service.RestApiBuilder.getClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MenuViewModel : ViewModel() {
-
-    private val menuItem = arrayListOf<Menu>();
-    private val _rvMenu = MutableLiveData<List<Menu>>()
-    val rvMenu: LiveData<List<Menu>>
-        get() = _rvMenu
-    private val api = getClient()
+class MenuViewModel(database: MajikaRoomDatabase) : ViewModel() {
+    private var menuItem = arrayListOf<Menu>()
+    private var currQuery = ""
     private lateinit var response : Call<MenuList>
+    private val api = getClient()
+    val repository = MajikaRepository(database)
+    val rvMenu = MutableLiveData<List<Menu>>()
 
     fun getMenu(){
         response = api.getMenu()
@@ -30,11 +31,11 @@ class MenuViewModel : ViewModel() {
                 val menus = response.body()
                 val sortedMenus = menus?.data?.sortedBy { it.name }
                 if (sortedMenus != null){
+                    menuItem.clear()
                     menuItem.addAll(sortedMenus)
-                    _rvMenu.postValue(menuItem)
                 }
+                filter(currQuery)
             }
-
             override fun onFailure(call: Call<MenuList>, t: Throwable) {
                 Log.d("menu", t.toString())
             }
@@ -42,7 +43,19 @@ class MenuViewModel : ViewModel() {
     }
 
     fun filter(query: String){
-        _rvMenu.postValue(menuItem.filter { it.name!!.contains(query, ignoreCase = true) })
+        currQuery = query
+        rvMenu.postValue(menuItem.filter { it.name!!.contains(query, ignoreCase = true) })
     }
+
+    class Factory(private val database: MajikaRoomDatabase) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(MenuViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return MenuViewModel(database) as T
+            }
+            throw IllegalArgumentException("Unable to construct viewmodel")
+        }
+    }
+
 
 }

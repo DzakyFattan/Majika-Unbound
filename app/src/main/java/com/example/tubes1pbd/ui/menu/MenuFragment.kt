@@ -6,6 +6,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tubes1pbd.data.MajikaRoomDatabase
 import com.example.tubes1pbd.databinding.FragmentMenuBinding
 
 class MenuFragment : Fragment(), SensorEventListener {
@@ -21,10 +23,11 @@ class MenuFragment : Fragment(), SensorEventListener {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var database : MajikaRoomDatabase
     private val menuViewModel: MenuViewModel by lazy {
-        ViewModelProvider(requireActivity())[MenuViewModel::class.java]
+        ViewModelProvider(this, MenuViewModel.Factory(database))[MenuViewModel::class.java]
     }
-    private val adapter = MenuAdapter()
+    private lateinit var adapter: MenuAdapter
     private lateinit var sensorManager: SensorManager
     private var tempSensor : Sensor? = null
 
@@ -39,27 +42,37 @@ class MenuFragment : Fragment(), SensorEventListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        database = MajikaRoomDatabase.getDatabase(activity?.application!!)
+        adapter = MenuAdapter(database.cartDao)
         binding.rvMenu.adapter = adapter
         binding.rvMenu.layoutManager = LinearLayoutManager(context)
         sensorManager = activity?.getSystemService(SENSOR_SERVICE) as SensorManager
         tempSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
         tempSensor ?: run{
             Toast.makeText(context, "Temperature sensor is not available", Toast.LENGTH_LONG).show()
-            binding.temperature?.text = "No Temperature Sensor"
+            binding.temperatureView.text = "No Temperature Sensor"
         }
-        binding.search?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
+
             override fun onQueryTextChange(newText: String?): Boolean {
                 menuViewModel.filter(newText!!)
+                Log.d("1", binding.searchView.query.toString())
                 return true
             }
         })
         menuViewModel.rvMenu.observe(viewLifecycleOwner){
             adapter.menuList = it.toMutableList()
         }
+        menuViewModel.repository.cartList.observe(viewLifecycleOwner){
+            val cartList = it.toMutableList()
+            adapter.cartList = cartList
+
+        }
         menuViewModel.getMenu()
+
     }
     override fun onDestroyView() {
         super.onDestroyView()
@@ -67,7 +80,7 @@ class MenuFragment : Fragment(), SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        binding.temperature?.text = "${event?.values?.get(0)} °C"
+        binding.temperatureView.text = "${event?.values?.get(0)} °C"
     }
 
     override fun onResume() {

@@ -43,7 +43,7 @@ class MenuFragment : Fragment(), SensorEventListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         database = MajikaRoomDatabase.getDatabase(activity?.application!!)
-        adapter = MenuAdapter(database.cartDao)
+        adapter = MenuAdapter(menuViewModel)
         binding.rvMenu.adapter = adapter
         binding.rvMenu.layoutManager = LinearLayoutManager(context)
         sensorManager = activity?.getSystemService(SENSOR_SERVICE) as SensorManager

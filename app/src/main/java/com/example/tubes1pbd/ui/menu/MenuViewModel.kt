@@ -4,16 +4,19 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.tubes1pbd.data.MajikaRoomDatabase
 import com.example.tubes1pbd.models.Menu
 import com.example.tubes1pbd.models.MenuList
 import com.example.tubes1pbd.repository.MajikaRepository
 import com.example.tubes1pbd.service.RestApiBuilder.getClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MenuViewModel(database: MajikaRoomDatabase) : ViewModel() {
+class MenuViewModel(private val database: MajikaRoomDatabase) : ViewModel(), MenuAdapter.OnButtonClickListener {
     private var menuItem = arrayListOf<Menu>()
     private var currQuery = ""
     private lateinit var response : Call<MenuList>
@@ -47,6 +50,24 @@ class MenuViewModel(database: MajikaRoomDatabase) : ViewModel() {
         rvMenu.postValue(menuItem.filter { it.name!!.contains(query, ignoreCase = true) })
     }
 
+    override fun onAddButtonClicked(name: String, price: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            database.cartDao.insertCartItem(name, price, 1)
+        }
+    }
+
+    override fun onIncreaseButtonClicked(name: String, price: Int, quantity: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            database.cartDao.updateCartItem(name, price, quantity + 1)
+        }
+    }
+
+    override fun onDecreaseButtonclicked(name: String, price: Int, quantity: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (quantity == 1) database.cartDao.deleteCartItem(name, price) else database.cartDao.updateCartItem(name, price, quantity - 1)
+        }
+    }
+
     class Factory(private val database: MajikaRoomDatabase) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(MenuViewModel::class.java)) {
@@ -56,6 +77,7 @@ class MenuViewModel(database: MajikaRoomDatabase) : ViewModel() {
             throw IllegalArgumentException("Unable to construct viewmodel")
         }
     }
+
 
 
 }

@@ -8,7 +8,7 @@ import com.example.tubes1pbd.databinding.CartListItemBinding
 import com.example.tubes1pbd.models.Cart
 
 
-class CartAdapter(private val cartDao : CartDao) :
+class CartAdapter(private val listener: OnButtonClickListener) :
     RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
     private var _cartList = mutableListOf<Cart>()
     var cartList
@@ -30,18 +30,18 @@ class CartAdapter(private val cartDao : CartDao) :
         holder.binding.price.text = cart.price.toString()
         holder.binding.quantity.text = cart.quantity.toString()
         holder.binding.increaseButton.setOnClickListener{
-            cartDao.updateCartItem(cart.name, cart.quantity + 1)
+            listener.onIncreaseButtonClicked(cart.name, cart.price, cart.quantity)
         }
-        holder.binding.decreaseButton.setOnClickListener{
-            if (cart.quantity == 1){
-                cartDao.deleteCartItem(cart.name)
-            }
-            else{
-                cartDao.updateCartItem(cart.name, cart.quantity - 1)
-            }
+        holder.binding.decreaseButton.setOnClickListener {
+            listener.onDecreaseButtonclicked(cart.name, cart.price, cart.quantity)
         }
     }
 
     override fun getItemCount() = _cartList.size
 
+    interface OnButtonClickListener{
+        fun onIncreaseButtonClicked(name: String, price: Int, quantity: Int)
+
+        fun onDecreaseButtonclicked(name: String, price: Int, quantity: Int)
+    }
 }

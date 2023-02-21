@@ -40,7 +40,7 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         database = MajikaRoomDatabase.getDatabase(activity?.application!!)
-        adapter = CartAdapter(database.cartDao)
+        adapter = CartAdapter(cartViewModel)
         binding.rvCart.adapter = adapter
         binding.rvCart.layoutManager = LinearLayoutManager(context)
         cartViewModel.repository.cartList.observe(viewLifecycleOwner){

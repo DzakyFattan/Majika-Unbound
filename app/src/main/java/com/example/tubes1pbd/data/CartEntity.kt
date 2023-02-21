@@ -1,13 +1,13 @@
 package com.example.tubes1pbd.data
 
 import androidx.room.Entity
+import androidx.room.ColumnInfo
 import androidx.room.PrimaryKey
 import com.example.tubes1pbd.models.Cart
-import org.jetbrains.annotations.NotNull
 
-@Entity(tableName = "cart")
+
+@Entity(tableName = "cart", primaryKeys = ["name", "price"])
 data class CartEntity constructor(
-    @PrimaryKey
     val name: String,
     val price: Int,
     val quantity: Int

@@ -3,22 +3,19 @@ package com.example.tubes1pbd.ui.menu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintSet.VISIBLE
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tubes1pbd.data.CartDao
-import com.example.tubes1pbd.data.MajikaRoomDatabase
 import com.example.tubes1pbd.databinding.FoodDrinkListItemBinding
 import com.example.tubes1pbd.models.Cart
 import com.example.tubes1pbd.models.Menu
 
 
-class MenuAdapter(private val cartDao: CartDao) :
+class MenuAdapter(private val listener: OnButtonClickListener) :
     RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
     private var _menuList = mutableListOf<Menu>()
     private var _cartList = mutableListOf<Cart>()
     var cartList
         get() = _cartList
-        set(value){
+        set(value){0
             _cartList = value
             notifyDataSetChanged()
         }
@@ -38,7 +35,7 @@ class MenuAdapter(private val cartDao: CartDao) :
 
     override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
         val menu = _menuList[position]
-        val cart : Cart? = cartList.find{it.name == menu.name}
+        val cart : Cart? = cartList.find{it.name == menu.name && it.price == menu.price}
         holder.binding.name.text = menu.name
         holder.binding.description.text = menu.description
         holder.binding.sold.text = "Sold: ${menu.sold.toString()}"
@@ -51,26 +48,23 @@ class MenuAdapter(private val cartDao: CartDao) :
             holder.binding.layoutButton.visibility = View.GONE
             holder.binding.addButton.visibility = View.VISIBLE
         }
-            holder.binding.addButton.setOnClickListener{
-                cartDao.insertCartItem(menu.name, menu.price, 1)
-            }
-            holder.binding.decreaseButton.setOnClickListener{
-                cart?.let {
-                    if (cart.quantity == 1){
-                        cartDao.deleteCartItem(menu.name)
-                    }
-                    else{
-                        cartDao.updateCartItem(menu.name, cart.quantity - 1)
-                    }
-                }
-            }
-            holder.binding.increaseButton.setOnClickListener{
-                cart?.let {
-                    cartDao.updateCartItem(menu.name, cart.quantity + 1)
-                }
-            }
+        holder.binding.addButton.setOnClickListener{
+            listener.onAddButtonClicked(menu.name!!, menu.price!!)
+        }
+        holder.binding.increaseButton.setOnClickListener{
+            listener.onIncreaseButtonClicked(menu.name!!, menu.price!!, cart!!.quantity)
+        }
+        holder.binding.decreaseButton.setOnClickListener {
+            listener.onDecreaseButtonclicked(menu.name!!, menu.price!!, cart!!.quantity)
+        }
     }
 
     override fun getItemCount() = _menuList.size
 
+    interface OnButtonClickListener{
+        fun onAddButtonClicked(name: String, price: Int)
+        fun onIncreaseButtonClicked(name: String, price: Int, quantity: Int)
+
+        fun onDecreaseButtonclicked(name: String, price: Int, quantity: Int)
+    }
 }

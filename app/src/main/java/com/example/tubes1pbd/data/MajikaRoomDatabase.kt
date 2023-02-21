@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [CartEntity::class], version = 1, exportSchema = false)
+@Database(entities = [CartEntity::class], version = 2, exportSchema = false)
 abstract class MajikaRoomDatabase : RoomDatabase() {
     abstract val cartDao: CartDao
 
@@ -25,7 +25,7 @@ abstract class MajikaRoomDatabase : RoomDatabase() {
                     // Wipes and rebuilds instead of migrating if no Migration object.
                     // Migration is not part of this codelab.
                     .fallbackToDestructiveMigration()
-                    .allowMainThreadQueries()
+                    // .allowMainThreadQueries()
                     .build()
                 INSTANCE = instance
                 // return instance

@@ -13,9 +13,9 @@ interface CartDao {
     @Query("INSERT INTO cart VALUES (:name, :price, :quantity)")
     fun insertCartItem(name: String?, price: Int?, quantity: Int?)
 
-    @Query("DELETE FROM cart WHERE name = :name")
-    fun deleteCartItem(name: String?)
+    @Query("DELETE FROM cart WHERE name = :name AND price = :price")
+    fun deleteCartItem(name: String?, price: Int?)
 
-    @Query("UPDATE cart SET quantity = :quantity WHERE name = :name")
-    fun updateCartItem(name: String?, quantity: Int?)
+    @Query("UPDATE cart SET quantity = :quantity WHERE name = :name AND price = :price")
+    fun updateCartItem(name: String?, price: Int?, quantity: Int?)
 }

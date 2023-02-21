@@ -24,9 +24,11 @@
         android:id="@+id/rv_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@+id/search_view"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_all" />
 
     <TextView
         android:id="@+id/temperature_view"
@@ -38,5 +40,38 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/filter_all"
+        android:layout_width="77dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="All"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_view" />
+
+    <Button
+        android:id="@+id/filter_food"
+        android:layout_width="77dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Food"
+        android:textSize="13dp"
+        app:layout_constraintStart_toEndOf="@+id/filter_all"
+        app:layout_constraintTop_toBottomOf="@+id/search_view" />
+
+    <Button
+        android:id="@+id/filter_drink"
+        android:layout_width="77dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Drink"
+        android:textSize="13dp"
+        app:layout_constraintStart_toEndOf="@+id/filter_food"
+        app:layout_constraintTop_toBottomOf="@+id/search_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

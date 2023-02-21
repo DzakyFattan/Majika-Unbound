@@ -18,8 +18,9 @@ import retrofit2.Response
 
 class MenuViewModel(private val database: MajikaRoomDatabase) : ViewModel(), MenuAdapter.OnButtonClickListener {
     private var menuItem = arrayListOf<Menu>()
-    private var currQuery = ""
+    var currQuery = ""
     private lateinit var response : Call<MenuResponse>
+    var type = "All"
     val repository = MajikaRepository(database)
     val rvMenu = MutableLiveData<List<Menu>>()
 
@@ -46,7 +47,11 @@ class MenuViewModel(private val database: MajikaRoomDatabase) : ViewModel(), Men
 
     fun filter(query: String){
         currQuery = query
-        rvMenu.postValue(menuItem.filter { it.name!!.contains(query, ignoreCase = true) })
+        if(type == "All") {
+            rvMenu.postValue(menuItem.filter { it.name!!.contains(query, ignoreCase = true) })
+        }else{
+            rvMenu.postValue(menuItem.filter { it.name!!.contains(query, ignoreCase = true) && it.type == type })
+        }
     }
 
     override fun onAddButtonClicked(name: String, price: Int) {

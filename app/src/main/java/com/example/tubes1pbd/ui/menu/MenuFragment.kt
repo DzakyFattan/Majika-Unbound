@@ -63,6 +63,18 @@ class MenuFragment : Fragment(), SensorEventListener {
                 return true
             }
         })
+        binding.filterAll.setOnClickListener{
+            menuViewModel.type = "All"
+            menuViewModel.filter(menuViewModel.currQuery)
+        }
+        binding.filterFood.setOnClickListener{
+            menuViewModel.type = "Food"
+            menuViewModel.filter(menuViewModel.currQuery)
+        }
+        binding.filterDrink.setOnClickListener{
+            menuViewModel.type = "Drink"
+            menuViewModel.filter(menuViewModel.currQuery)
+        }
         menuViewModel.rvMenu.observe(viewLifecycleOwner){
             adapter.menuList = it.toMutableList()
         }
@@ -72,6 +84,7 @@ class MenuFragment : Fragment(), SensorEventListener {
 
         }
         menuViewModel.getMenu()
+
 
     }
     override fun onDestroyView() {

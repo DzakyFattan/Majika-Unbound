@@ -11,7 +11,7 @@
         android:id="@+id/search_view"
         android:layout_width="251dp"
         android:layout_height="48dp"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="80dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,10 +32,44 @@
         android:id="@+id/temperature_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/temperature_value"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/search_view"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/filter_all"
+        android:layout_width="77dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="All"
+        android:textSize="13dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_view" />
+
+    <Button
+        android:id="@+id/filter_food"
+        android:layout_width="77dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Food"
+        android:textSize="13dp"
+        app:layout_constraintStart_toEndOf="@+id/filter_all"
+        app:layout_constraintTop_toBottomOf="@+id/search_view" />
+
+    <Button
+        android:id="@+id/filter_drink"
+        android:layout_width="77dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Drink"
+        android:textSize="13dp"
+        app:layout_constraintStart_toEndOf="@+id/filter_food"
+        app:layout_constraintTop_toBottomOf="@+id/search_view" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

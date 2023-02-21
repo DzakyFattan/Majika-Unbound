@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.tubes1pbd.data.MajikaRoomDatabase
 import com.example.tubes1pbd.models.Menu
-import com.example.tubes1pbd.models.MenuList
+import com.example.tubes1pbd.models.MenuResponse
 import com.example.tubes1pbd.repository.MajikaRepository
 import com.example.tubes1pbd.service.RestApiBuilder.getClient
 import kotlinx.coroutines.Dispatchers
@@ -19,17 +19,16 @@ import retrofit2.Response
 class MenuViewModel(private val database: MajikaRoomDatabase) : ViewModel(), MenuAdapter.OnButtonClickListener {
     private var menuItem = arrayListOf<Menu>()
     private var currQuery = ""
-    private lateinit var response : Call<MenuList>
-    private val api = getClient()
+    private lateinit var response : Call<MenuResponse>
     val repository = MajikaRepository(database)
     val rvMenu = MutableLiveData<List<Menu>>()
 
     fun getMenu(){
-        response = api.getMenu()
-        response.enqueue(object: Callback<MenuList> {
+        response = getClient().getMenu()
+        response.enqueue(object: Callback<MenuResponse> {
             override fun onResponse(
-                call: Call<MenuList>,
-                response: Response<MenuList>
+                call: Call<MenuResponse>,
+                response: Response<MenuResponse>
             ){
                 val menus = response.body()
                 val sortedMenus = menus?.data?.sortedBy { it.name }
@@ -39,7 +38,7 @@ class MenuViewModel(private val database: MajikaRoomDatabase) : ViewModel(), Men
                 }
                 filter(currQuery)
             }
-            override fun onFailure(call: Call<MenuList>, t: Throwable) {
+            override fun onFailure(call: Call<MenuResponse>, t: Throwable) {
                 Log.d("menu", t.toString())
             }
         })

@@ -7,18 +7,18 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tubes1pbd.databinding.CardviewLocationBinding
-import com.example.tubes1pbd.models.Locations
+import com.example.tubes1pbd.models.Location
 
 
 class LocationAdapter : RecyclerView.Adapter<LocationAdapter.Holder>() {
 
-    var locations = mutableListOf<Locations>()
-    fun setLocationsList(locations: List<Locations>) {
-        this.locations.clear()
-        this.locations = locations.toMutableList()
-        notifyDataSetChanged()
-    }
-
+    private var _locationList = mutableListOf<Location>()
+    var locationList
+        get() = _locationList
+        set(value) {
+            _locationList = value
+            notifyDataSetChanged()
+        }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val itemBinding =
             CardviewLocationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,17 +26,17 @@ class LocationAdapter : RecyclerView.Adapter<LocationAdapter.Holder>() {
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val location = locations[position]
+        val location = _locationList[position]
         holder.bind(location)
     }
 
     override fun getItemCount(): Int {
-        return locations.size
+        return _locationList.size
     }
 
     inner class Holder(private val itemBinding: CardviewLocationBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(location: Locations) {
+        fun bind(location: Location) {
             itemBinding.apply {
                 tvLocationName.text = location.name
                 tvLocationAddress.text = location.address

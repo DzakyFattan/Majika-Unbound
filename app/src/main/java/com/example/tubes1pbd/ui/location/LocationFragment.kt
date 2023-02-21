@@ -16,23 +16,29 @@ class LocationFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var adapter: LocationAdapter
+    private val locationViewModel: LocationViewModel by lazy {
+        ViewModelProvider(requireActivity())[LocationViewModel::class.java]
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val locationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
-
         _binding = FragmentLocationBinding.inflate(inflater, container, false)
-        val locationAdapter = LocationAdapter()
-        binding.rvLocation.adapter = locationAdapter
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        adapter = LocationAdapter()
+        binding.rvLocation.adapter = adapter
         binding.rvLocation.layoutManager = LinearLayoutManager(context)
         locationViewModel.rvLocation.observe(viewLifecycleOwner) {
-//            Log.d(TAG, "onCreateView: $it")
-            locationAdapter.setLocationsList(it)
+            // Log.d(TAG, "onCreateView: $it")
+            adapter.locationList = it.toMutableList()
         }
         locationViewModel.getLocations()
-
-        return binding.root
     }
 
     override fun onDestroyView() {

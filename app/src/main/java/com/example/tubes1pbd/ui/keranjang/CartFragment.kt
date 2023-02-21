@@ -1,6 +1,7 @@
 package com.example.tubes1pbd.ui.keranjang
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tubes1pbd.data.MajikaRoomDatabase
 import com.example.tubes1pbd.databinding.FragmentCartBinding
-import com.example.tubes1pbd.ui.menu.MenuAdapter
-import com.example.tubes1pbd.ui.menu.MenuViewModel
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 
 class CartFragment : Fragment() {
@@ -51,11 +50,14 @@ class CartFragment : Fragment() {
         binding.addButton2.setOnClickListener {
             scanner.startScan()
                 .addOnSuccessListener {
-                    Toast.makeText(context, "Success: ${it.rawValue}", Toast.LENGTH_SHORT).show()
+                    cartViewModel.sendQRDecode(it.rawValue.toString())
                 }
                 .addOnFailureListener {
                     Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
                 }
+        }
+        cartViewModel.status.observe(viewLifecycleOwner){
+            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 

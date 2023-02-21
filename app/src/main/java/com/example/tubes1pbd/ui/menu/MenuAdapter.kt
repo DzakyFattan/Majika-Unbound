@@ -15,7 +15,7 @@ class MenuAdapter(private val listener: OnButtonClickListener) :
     private var _cartList = mutableListOf<Cart>()
     var cartList
         get() = _cartList
-        set(value){0
+        set(value){
             _cartList = value
             notifyDataSetChanged()
         }

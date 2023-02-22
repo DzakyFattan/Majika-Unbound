@@ -29,7 +29,7 @@ class LocationViewModel : ViewModel() {
             ) {
                 val locations = response.body()
                 val sortedLocations = locations?.data?.sortedBy { it.name }
-                Log.d("location", sortedLocations.toString())
+//                Log.d("location", sortedLocations.toString())
                 if (sortedLocations != null) {
                     locationItem.addAll(sortedLocations)
                     _rvLocation.postValue(locationItem)
@@ -37,7 +37,8 @@ class LocationViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<LocationResponse>, t: Throwable) {
-                Log.d("location", t.toString())
+//                Log.d("location", t.toString())
+                _rvLocation.postValue(locationItem)
             }
         })
     }

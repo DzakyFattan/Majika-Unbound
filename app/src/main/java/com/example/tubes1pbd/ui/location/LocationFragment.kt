@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tubes1pbd.databinding.FragmentLocationBinding
+import kotlin.system.measureTimeMillis
 
 class LocationFragment : Fragment() {
 
@@ -38,7 +40,12 @@ class LocationFragment : Fragment() {
             // Log.d(TAG, "onCreateView: $it")
             adapter.locationList = it.toMutableList()
         }
-        locationViewModel.getLocations()
+        val elapsed = measureTimeMillis {
+            locationViewModel.getLocations()
+        }
+        if (elapsed > 1000 * 30 && (locationViewModel.rvLocation.value == null || locationViewModel.rvLocation.value!!.isEmpty())) {
+            Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onDestroyView() {

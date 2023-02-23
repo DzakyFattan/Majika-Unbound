@@ -52,7 +52,18 @@ class PaymentViewModel(private val db: MajikaRoomDatabase) : ViewModel() {
             delay(500)
             apiCall.sendQRDecode(qrcode).enqueue(object : retrofit2.Callback<DecodeResponse> {
                 override fun onResponse(call: retrofit2.Call<DecodeResponse>, response: retrofit2.Response<DecodeResponse>) {
-                    val status = response.body()!!.status
+                    if (response.code() != 200) {
+                        _paymentStatus.value = "Error"
+                        _paymentMessage.value = "Kode QR tidak valid"
+                        return
+                    }
+                    val respbody = response.body()
+                    if (respbody == null) {
+                        _paymentStatus.value = "Error"
+                        _paymentMessage.value = "Kode QR tidak valid"
+                        return
+                    }
+                    val status = respbody.status
                     Log.d("QRCode_Sent", status)
                     if (status == "SUCCESS") {
                         viewModelScope.launch (Dispatchers.IO) {

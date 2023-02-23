@@ -14,4 +14,6 @@
     <string name="increase_button">+</string>
     <string name="decrease_button">-</string>
     <string name="quantity">0</string>
+    <string name="pay">Pay</string>
+    <string name="total">Total:</string>
 </resources>

@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
+import androidx.camera.core.UseCaseGroup
+import androidx.camera.core.ViewPort
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -95,6 +97,7 @@ class LiveFeedFragment : Fragment(R.layout.fragment_twibbon_livefeed) {
         cameraProviderFuture.addListener(
             {
                 val cameraProvider = cameraProviderFuture.get()
+                val viewport = binding.liveFeedPreview.viewPort
                 val preview = androidx.camera.core.Preview.Builder()
                     .build()
                     .also {
@@ -103,10 +106,14 @@ class LiveFeedFragment : Fragment(R.layout.fragment_twibbon_livefeed) {
                 val cameraSelector = androidx.camera.core.CameraSelector.DEFAULT_FRONT_CAMERA
                 imageCapture = ImageCapture.Builder()
                     .build()
+                val ucg: UseCaseGroup = UseCaseGroup.Builder().setViewPort(viewport!!)
+                    .addUseCase(preview)
+                    .addUseCase(imageCapture!!)
+                    .build()
                 try {
                     cameraProvider.unbindAll()
                     cameraProvider.bindToLifecycle(
-                        this, cameraSelector, preview, imageCapture
+                        this, cameraSelector, ucg
                     )
                 } catch (e: Exception) {
                     Log.e(TAG, "Use case binding failed", e)

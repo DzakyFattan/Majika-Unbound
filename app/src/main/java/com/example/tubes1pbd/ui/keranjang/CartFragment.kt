@@ -1,5 +1,6 @@
 package com.example.tubes1pbd.ui.keranjang
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tubes1pbd.data.MajikaRoomDatabase
 import com.example.tubes1pbd.databinding.FragmentCartBinding
+import com.example.tubes1pbd.ui.payment.PaymentActivity
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 
 class CartFragment : Fragment() {
@@ -48,13 +50,18 @@ class CartFragment : Fragment() {
         }
         val scanner = GmsBarcodeScanning.getClient(requireContext())
         binding.addButton2.setOnClickListener {
-            scanner.startScan()
-                .addOnSuccessListener {
-                    cartViewModel.sendQRDecode(it.rawValue.toString())
+            Intent(context, PaymentActivity::class.java)
+                .putExtra("price", binding.totalPrice.text)
+                .also {
+                    startActivity(it)
                 }
-                .addOnFailureListener {
-                    Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
-                }
+//            scanner.startScan()
+//                .addOnSuccessListener {
+//                    cartViewModel.sendQRDecode(it.rawValue.toString())
+//                }
+//                .addOnFailureListener {
+//                    Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
+//                }
         }
         cartViewModel.status.observe(viewLifecycleOwner){
             Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()

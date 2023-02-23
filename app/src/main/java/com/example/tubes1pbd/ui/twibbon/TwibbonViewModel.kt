@@ -13,29 +13,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.tubes1pbd.R
+import com.example.tubes1pbd.service.SingleEvent
 import java.io.File
 import java.util.*
 
-open class Event<out T>(private val content: T) {
 
-    private var hasBeenHandled = false
-
-    /**
-     * Returns the content and prevents its use again.
-     */
-    fun getContentIfNotHandled(): T? {
-        return if (hasBeenHandled) {
-            null
-        } else {
-            hasBeenHandled = true
-            content
-        }
-    }
-
-    /**
-     * Returns the content, even if it's already been handled.
-     */
-}
 class TwibbonViewModel(app: Application) : AndroidViewModel(app){
 
     companion object {
@@ -44,8 +26,8 @@ class TwibbonViewModel(app: Application) : AndroidViewModel(app){
     private var _bitmapCamHolder = MutableLiveData<Bitmap> ()
     private var _bitmapTwibbonHolder = MutableLiveData<Bitmap> ()
     private var _bitmapCombined = MutableLiveData<Bitmap> ()
-    private var _saveBitmapMessage = MutableLiveData<Event<String>>()
-    val saveBitmapMessage: LiveData<Event<String>>
+    private var _saveBitmapMessage = MutableLiveData<SingleEvent<String>>()
+    val saveBitmapMessage: LiveData<SingleEvent<String>>
         get() = _saveBitmapMessage
     val bitmapTwibbonHolder: LiveData<Bitmap>
         get() = _bitmapTwibbonHolder
@@ -62,7 +44,7 @@ class TwibbonViewModel(app: Application) : AndroidViewModel(app){
     }
     fun saveCombinedBitmap() {
         if (_bitmapCombined.value == null) {
-            _saveBitmapMessage.value = Event("No image to save")
+            _saveBitmapMessage.value = SingleEvent("No image to save")
             return
         }
         try {
@@ -78,10 +60,10 @@ class TwibbonViewModel(app: Application) : AndroidViewModel(app){
             val stream = resolver.openOutputStream(uri!!)
             _bitmapCombined.value!!.compress(Bitmap.CompressFormat.JPEG, 50, stream)
             stream!!.close()
-            _saveBitmapMessage.value = Event("Saved to gallery at ${Environment.DIRECTORY_PICTURES + File.separator + appname + File.separator + filename}")
+            _saveBitmapMessage.value = SingleEvent("Saved to gallery at ${Environment.DIRECTORY_PICTURES + File.separator + appname + File.separator + filename}")
         } catch (e: Exception) {
             Log.e("TwibbonViewModel", "saveCombinedBitmap: ", e)
-            _saveBitmapMessage.value = Event("Failed to save to gallery")
+            _saveBitmapMessage.value = SingleEvent("Failed to save to gallery")
         }
     }
     private fun updateBitmapCombined() {

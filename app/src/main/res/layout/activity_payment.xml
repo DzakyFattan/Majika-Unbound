@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/liveQRPreview"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <TextView
+        android:id="@+id/paymentTotalDue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/liveQRPreview"
+        app:layout_constraintEnd_toEndOf="@id/liveQRPreview"
+        app:layout_constraintTop_toBottomOf="@id/liveQRPreview"
+        android:layout_marginTop="20dp"
+        android:textSize="24sp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/paymentStatusPreview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/liveQRPreview"
+        app:layout_constraintEnd_toEndOf="@id/liveQRPreview"
+        app:layout_constraintTop_toBottomOf="@id/paymentTotalDue"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:textColor="#FF0000"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/paymentResultComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/paymentStatusPreview"
+        app:layout_constraintEnd_toEndOf="@id/paymentStatusPreview"
+        app:layout_constraintTop_toBottomOf="@id/paymentStatusPreview"
+        android:layout_marginTop="12dp"
+        android:textColor="#000000"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

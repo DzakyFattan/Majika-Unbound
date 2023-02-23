@@ -18,4 +18,7 @@ interface CartDao {
 
     @Query("UPDATE cart SET quantity = :quantity WHERE name = :name AND price = :price")
     fun updateCartItem(name: String?, price: Int?, quantity: Int?)
+
+    @Query("DELETE FROM cart")
+    fun deleteAllCartItem()
 }

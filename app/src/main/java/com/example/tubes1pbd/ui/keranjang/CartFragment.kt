@@ -66,6 +66,10 @@ class CartFragment : Fragment() {
         cartViewModel.status.observe(viewLifecycleOwner){
             Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
         }
+        cartViewModel.menuList.observe(viewLifecycleOwner){
+            cartViewModel.checkMenuAndCart(it)
+        }
+        cartViewModel.getMenu()
     }
 
     override fun onDestroyView() {

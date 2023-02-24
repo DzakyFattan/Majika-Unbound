@@ -39,6 +39,7 @@ class MenuViewModel(private val database: MajikaRoomDatabase) : ViewModel(), Men
                     menuItem.clear()
                     menuItem.addAll(sortedMenus)
                 }
+                checkMenuAndCart()
                 filter(currQuery)
             }
             override fun onFailure(call: Call<MenuResponse>, t: Throwable) {
@@ -56,10 +57,10 @@ class MenuViewModel(private val database: MajikaRoomDatabase) : ViewModel(), Men
         }
     }
 
-    fun checkMenuAndCart(menuList: List<Menu>){
+    fun checkMenuAndCart(){
         cartList = repository.cartList.value?.toList()!!
         cartList.forEach{cart ->
-            if(menuList.none{it.name == cart.name && it.price == cart.price}){
+            if(menuItem.none{it.name == cart.name && it.price == cart.price}){
                 viewModelScope.launch (Dispatchers.IO){
                     database.cartDao.deleteCartItem(cart.name, cart.price)
                 }

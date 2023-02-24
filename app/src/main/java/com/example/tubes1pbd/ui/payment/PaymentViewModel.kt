@@ -43,14 +43,12 @@ class PaymentViewModel(private val db: MajikaRoomDatabase) : ViewModel() {
 
 
     fun postDebounced(qrcode: String) {
-        Log.d("QRCode_Sent", postJob?.isActive.toString())
-        if (postJob?.isActive == true) {
+        if (postJob?.isActive == true || _isPaymentSuccessful.value == true) {
             return
         }
         postJob = viewModelScope.launch {
             if (!_internalSuccessState) return@launch
             _internalSuccessState = false
-            Log.d("QRCode_Sent", qrcode)
             _paymentStatus.value = "Loading"
             _paymentMessage.value = ""
             delay(1000)

@@ -52,7 +52,7 @@ class PaymentActivity: AppCompatActivity(R.layout.activity_payment) {
         // livedataobserver
         viewModel.isPaymentSuccessful.observe(this){
             if (it) {
-                Intent(this, MainActivity::class.java).also {backintent ->
+                Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP).also {backintent ->
                     startActivity(backintent)
                 }
             }
@@ -61,7 +61,7 @@ class PaymentActivity: AppCompatActivity(R.layout.activity_payment) {
         viewModel.paymentStatus.observe(this){
             if (it == "Pembayaran Berhasil") {
                 binding.paymentStatusPreview.setTextColor(Color.parseColor("#228C22"))
-            } else if (it == "Pembayaran Gagal"){
+            } else if (it == "Pembayaran Gagal" || it == "Error"){
                 binding.paymentStatusPreview.setTextColor(Color.parseColor("#FF0000"))
             } else {
                 binding.paymentStatusPreview.setTextColor(Color.parseColor("#000000"))

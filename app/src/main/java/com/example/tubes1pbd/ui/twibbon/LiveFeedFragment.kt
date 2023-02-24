@@ -81,7 +81,6 @@ class LiveFeedFragment : Fragment(R.layout.fragment_twibbon_livefeed) {
                             R.id.fragment_twibbon_main,
                             ResultDisplayFragment(), "resultDisplayFragment"
                         )
-                        addToBackStack(null)
                     }
                 }
                 override fun onError(exception: ImageCaptureException) {

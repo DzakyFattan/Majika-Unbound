@@ -55,17 +55,17 @@ Aplikasi ini merupakan aplikasi untuk membeli makanan dan minuman dengan fitur t
 
 
 ## Anggota
-Nama                        | NIM
-----                        | ---
-Dzaky Fattan Rizqullah      | 13520003
-Jeremy Rionaldo Pasaribu    | 13520082
-Thirafi Najwan Kurniatama   | 13520157
+| Nama                      | NIM      |
+|---------------------------|----------|
+| Dzaky Fattan Rizqullah    | 13520003 |
+| Jeremy Rionaldo Pasaribu  | 13520082 |
+| Thirafi Najwan Kurniatama | 13520157 |
 
 ## Pembagian Kerja
-Halaman                 | NIM
--------                 | ---
-Halaman Menu            | 13520082
-Halaman Keranjang       | 13520082, 13520157
-Halaman Pembayaran      | 13520157
-Halaman Cabang Restoran | 13520003
-Halaman Twibbon         | 13520157, 13520003
+| Halaman                 | NIM                |
+|-------------------------|--------------------|
+| Halaman Menu            | 13520082           |
+| Halaman Keranjang       | 13520082, 13520157 |
+| Halaman Pembayaran      | 13520157           |
+| Halaman Cabang Restoran | 13520003           |
+| Halaman Twibbon         | 13520157, 13520003 |

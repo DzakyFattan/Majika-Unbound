@@ -61,8 +61,10 @@ class PaymentActivity: AppCompatActivity(R.layout.activity_payment) {
         viewModel.paymentStatus.observe(this){
             if (it == "Pembayaran Berhasil") {
                 binding.paymentStatusPreview.setTextColor(Color.parseColor("#228C22"))
-            } else {
+            } else if (it == "Pembayaran Gagal"){
                 binding.paymentStatusPreview.setTextColor(Color.parseColor("#FF0000"))
+            } else {
+                binding.paymentStatusPreview.setTextColor(Color.parseColor("#000000"))
             }
             binding.paymentStatusPreview.text = it
         }

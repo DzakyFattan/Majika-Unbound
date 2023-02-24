@@ -1,6 +1,7 @@
 package com.example.tubes1pbd.ui.menu
 
 import android.content.Context.SENSOR_SERVICE
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -12,9 +13,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tubes1pbd.R
 import com.example.tubes1pbd.data.MajikaRoomDatabase
 import com.example.tubes1pbd.databinding.FragmentMenuBinding
 
@@ -48,6 +51,9 @@ class MenuFragment : Fragment(), SensorEventListener {
         binding.rvMenu.layoutManager = LinearLayoutManager(context)
         sensorManager = activity?.getSystemService(SENSOR_SERVICE) as SensorManager
         tempSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+        binding.filterAll.setBackgroundColor(Color.parseColor("#FFC107"))
+        binding.filterFood.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.purple_500))
+        binding.filterDrink.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.purple_500))
         tempSensor ?: run{
             Toast.makeText(context, "Temperature sensor is not available", Toast.LENGTH_LONG).show()
             binding.temperatureView.text = "No Temperature Sensor"
@@ -64,14 +70,23 @@ class MenuFragment : Fragment(), SensorEventListener {
             }
         })
         binding.filterAll.setOnClickListener{
+            binding.filterAll.setBackgroundColor(Color.parseColor("#FFC107"))
+            binding.filterFood.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.purple_500))
+            binding.filterDrink.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.purple_500))
             menuViewModel.type = "All"
             menuViewModel.filter(menuViewModel.currQuery)
         }
         binding.filterFood.setOnClickListener{
+            binding.filterAll.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.purple_500))
+            binding.filterFood.setBackgroundColor(Color.parseColor("#FFC107"))
+            binding.filterDrink.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.purple_500))
             menuViewModel.type = "Food"
             menuViewModel.filter(menuViewModel.currQuery)
         }
         binding.filterDrink.setOnClickListener{
+            binding.filterAll.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.purple_500))
+            binding.filterFood.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.purple_500))
+            binding.filterDrink.setBackgroundColor(Color.parseColor("#FFC107"))
             menuViewModel.type = "Drink"
             menuViewModel.filter(menuViewModel.currQuery)
         }

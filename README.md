@@ -35,19 +35,23 @@ Aplikasi ini merupakan aplikasi untuk membeli makanan dan minuman dengan fitur t
 
 ## Screenshot
 ### Halaman Menu
-![]()
+![](screenshot/menu-1.jpg)
+![](screenshot/menu-2.jpg)
+![](screenshot/menu-3.jpg)
 
 ### Halaman Keranjang
-![]()
+![](screenshot/cart.jpg)
 
 ### Halaman Pembayaran
-![]()
+![](screenshot/qr-1.jpg)
+![](screenshot/qr-2.jpg)
+![](screenshot/qr-3.jpg)
 
 ### Halaman Cabang Restoran
-![]()
+![](screenshot/location.jpg)
 
 ### Halaman Twibbon
-![]()
+![](screenshot/twibbon.jpg)
 
 
 ## Anggota

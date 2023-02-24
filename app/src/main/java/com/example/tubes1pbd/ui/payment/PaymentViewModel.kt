@@ -82,8 +82,8 @@ class PaymentViewModel(private val db: MajikaRoomDatabase) : ViewModel() {
                 }
                 override fun onFailure(call: retrofit2.Call<DecodeResponse>, t: Throwable) {
                     if (_isPaymentSuccessful.value == true) return
-                    _paymentStatus.value = "error"
-                    _paymentMessage.value = t.message!!
+                    _paymentStatus.value = "Error"
+                    _paymentMessage.value = "Something went wrong"
                 }
             })
         }

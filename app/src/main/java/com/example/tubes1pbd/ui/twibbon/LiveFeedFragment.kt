@@ -106,7 +106,11 @@ class LiveFeedFragment : Fragment(R.layout.fragment_twibbon_livefeed) {
                 val cameraSelector = androidx.camera.core.CameraSelector.DEFAULT_FRONT_CAMERA
                 imageCapture = ImageCapture.Builder()
                     .build()
-                val ucg: UseCaseGroup = UseCaseGroup.Builder().setViewPort(viewport!!)
+                if (viewport == null) {
+                    Log.e(TAG, "ViewPort is null")
+                    return@addListener
+                }
+                val ucg: UseCaseGroup = UseCaseGroup.Builder().setViewPort(viewport)
                     .addUseCase(preview)
                     .addUseCase(imageCapture!!)
                     .build()

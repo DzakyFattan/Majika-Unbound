@@ -14,6 +14,7 @@ import com.example.tubes1pbd.data.MajikaRoomDatabase
 import com.example.tubes1pbd.databinding.FragmentCartBinding
 import com.example.tubes1pbd.ui.payment.PaymentActivity
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
+import java.text.DecimalFormat
 
 class CartFragment : Fragment() {
 
@@ -46,9 +47,15 @@ class CartFragment : Fragment() {
         binding.rvCart.layoutManager = LinearLayoutManager(context)
         cartViewModel.repository.cartList.observe(viewLifecycleOwner){
             adapter.cartList = it.toMutableList()
-            binding.totalPrice.text = cartViewModel.calculateTotalPrice(it).toString()
+            val price: Long = cartViewModel.calculateTotalPrice(it)
+            if (price == 0L){
+                binding.totalPrice.text = "Rp. 0"
+                binding.addButton2.isEnabled = false
+            } else {
+                binding.totalPrice.text = "Rp. ${DecimalFormat("#,###").format(price).replace(',', '.')}"
+                binding.addButton2.isEnabled = true
+            }
         }
-        val scanner = GmsBarcodeScanning.getClient(requireContext())
         binding.addButton2.setOnClickListener {
             Intent(context, PaymentActivity::class.java)
                 .putExtra("price", binding.totalPrice.text)

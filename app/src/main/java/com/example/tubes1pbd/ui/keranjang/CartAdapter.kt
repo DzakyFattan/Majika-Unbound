@@ -2,10 +2,13 @@ package com.example.tubes1pbd.ui.keranjang
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tubes1pbd.data.CartDao
 import com.example.tubes1pbd.databinding.CartListItemBinding
 import com.example.tubes1pbd.models.Cart
+import com.example.tubes1pbd.ui.menu.MenuAdapter
+import java.text.DecimalFormat
 
 
 class CartAdapter(private val listener: OnButtonClickListener) :
@@ -27,8 +30,8 @@ class CartAdapter(private val listener: OnButtonClickListener) :
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val cart = _cartList[position]
         holder.binding.name.text = cart.name
-        holder.binding.price.text = cart.price.toString()
-        holder.binding.quantity.text = cart.quantity.toString()
+        holder.binding.price.text = "Rp. ${DecimalFormat("#,###").format(cart.price).replace(',', '.')}"
+        holder.binding.quantity.text = DecimalFormat("#,###").format(cart.quantity).replace(',', '.')
         holder.binding.increaseButton.setOnClickListener{
             listener.onIncreaseButtonClicked(cart.name, cart.price, cart.quantity)
         }

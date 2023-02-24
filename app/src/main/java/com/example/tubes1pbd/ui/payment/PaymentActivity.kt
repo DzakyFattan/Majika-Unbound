@@ -23,6 +23,7 @@ import com.example.tubes1pbd.data.MajikaRoomDatabase
 import com.example.tubes1pbd.databinding.ActivityPaymentBinding
 import com.example.tubes1pbd.service.QRAnalyzer
 import com.example.tubes1pbd.ui.keranjang.CartViewModel
+import com.example.tubes1pbd.ui.twibbon.LiveFeedFragment
 import com.example.tubes1pbd.ui.twibbon.TwibbonViewModel
 import kotlinx.coroutines.delay
 
@@ -56,10 +57,10 @@ class PaymentActivity: AppCompatActivity(R.layout.activity_payment) {
                 }
             }
         }
-        binding.paymentTotalDue.text = "Total : Rp. ${intent.getStringExtra("price")}"
+        binding.paymentTotalDue.text = "Total : ${intent.getStringExtra("price")}"
         viewModel.paymentStatus.observe(this){
             if (it == "Pembayaran Berhasil") {
-                binding.paymentStatusPreview.setTextColor(Color.parseColor("#00FF00"))
+                binding.paymentStatusPreview.setTextColor(Color.parseColor("#228C22"))
             } else {
                 binding.paymentStatusPreview.setTextColor(Color.parseColor("#FF0000"))
             }
@@ -112,7 +113,11 @@ class PaymentActivity: AppCompatActivity(R.layout.activity_payment) {
                                 }
                             )
                         }
-                val ucg: UseCaseGroup = UseCaseGroup.Builder().setViewPort(viewport!!)
+                if (viewport == null) {
+                    Log.e( "PaymentAct", "ViewPort is null")
+                    return@addListener
+                }
+                val ucg: UseCaseGroup = UseCaseGroup.Builder().setViewPort(viewport)
                     .addUseCase(preview)
                     .addUseCase(barcodeQRAnalyzer)
                     .build()

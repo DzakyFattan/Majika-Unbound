@@ -77,11 +77,11 @@ class MenuFragment : Fragment(), SensorEventListener {
         }
         menuViewModel.rvMenu.observe(viewLifecycleOwner){
             adapter.menuList = it.toMutableList()
+            menuViewModel.checkMenuAndCart(it)
         }
         menuViewModel.repository.cartList.observe(viewLifecycleOwner){
             val cartList = it.toMutableList()
             adapter.cartList = cartList
-
         }
         menuViewModel.getMenu()
 

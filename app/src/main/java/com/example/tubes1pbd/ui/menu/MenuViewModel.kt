@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.tubes1pbd.data.MajikaRoomDatabase
+import com.example.tubes1pbd.models.Cart
 import com.example.tubes1pbd.models.Menu
 import com.example.tubes1pbd.models.MenuResponse
 import com.example.tubes1pbd.repository.MajikaRepository
@@ -20,6 +21,7 @@ class MenuViewModel(private val database: MajikaRoomDatabase) : ViewModel(), Men
     private var menuItem = arrayListOf<Menu>()
     var currQuery = ""
     private lateinit var response : Call<MenuResponse>
+    private lateinit var cartList: List<Cart>
     var type = "All"
     val repository = MajikaRepository(database)
     val rvMenu = MutableLiveData<List<Menu>>()
@@ -51,6 +53,17 @@ class MenuViewModel(private val database: MajikaRoomDatabase) : ViewModel(), Men
             rvMenu.postValue(menuItem.filter { it.name!!.contains(query, ignoreCase = true) })
         }else{
             rvMenu.postValue(menuItem.filter { it.name!!.contains(query, ignoreCase = true) && it.type == type })
+        }
+    }
+
+    fun checkMenuAndCart(menuList: List<Menu>){
+        cartList = repository.cartList.value?.toList()!!
+        cartList.forEach{cart ->
+            if(menuList.none{it.name == cart.name && it.price == cart.price}){
+                viewModelScope.launch (Dispatchers.IO){
+                    database.cartDao.deleteCartItem(cart.name, cart.price)
+                }
+            }
         }
     }
 

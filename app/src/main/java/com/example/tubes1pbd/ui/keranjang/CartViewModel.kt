@@ -22,8 +22,8 @@ class CartViewModel(private val database: MajikaRoomDatabase) : ViewModel(), Car
     val repository = MajikaRepository(database)
     val status = MutableLiveData<String>()
     private lateinit var cartList: List<Cart>
-    val menuList = MutableLiveData<List<Menu>>()
     private var menus: MenuResponse? = null
+    private lateinit var menuList : List<Menu>
     private lateinit var menuResponse: Call<MenuResponse>
 
     fun getMenu(){
@@ -34,7 +34,8 @@ class CartViewModel(private val database: MajikaRoomDatabase) : ViewModel(), Car
                 response: Response<MenuResponse>
             ){
                 menus = response.body()
-                menuList.postValue(menus?.data)
+                menuList = (menus?.data!!)
+                checkMenuAndCart()
             }
             override fun onFailure(call: Call<MenuResponse>, t: Throwable) {
                 Log.d("menu", t.toString())
@@ -42,7 +43,7 @@ class CartViewModel(private val database: MajikaRoomDatabase) : ViewModel(), Car
         })
     }
 
-    fun checkMenuAndCart(menuList: List<Menu>){
+    fun checkMenuAndCart(){
         cartList = repository.cartList.value?.toList()!!
         cartList.forEach{cart ->
             if(menuList.none{it.name == cart.name && it.price == cart.price}){

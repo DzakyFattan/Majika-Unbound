@@ -43,11 +43,14 @@ class TwibbonMainFragment: Fragment(R.layout.fragment_twibbon_main) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "onViewCreated:  $savedInstanceState")
         // if no fragment is displayed
-        if (savedInstanceState == null) {
-            parentFragmentManager.commit {
-                setReorderingAllowed(true)
-                replace(R.id.fragment_twibbon_main, LiveFeedFragment(), "liveFeedFragment")
-            }
+        parentFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(R.id.fragment_twibbon_main, LiveFeedFragment(), "liveFeedFragment")
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
